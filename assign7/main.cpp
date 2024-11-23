@@ -18,7 +18,9 @@
  *
  * @note No modifications are necessary to this struct in order to complete the assignment!
  */
-template <typename T> struct ListNode {
+template <typename T>
+struct ListNode
+{
 
   /** @brief The value stored inside this node. */
   T value;
@@ -30,14 +32,16 @@ template <typename T> struct ListNode {
    * @brief Constructs a single element linked list, setting `next` to `nullptr`.
    * @param value The value to store in the node.
    */
-  ListNode(T value) : value(value), next(nullptr) {
+  ListNode(T value) : value(value), next(nullptr)
+  {
     /* This line is just here for logging purposes so we can see when the
      * constructor runs!
      */
     std::cout << "Constructing node with value '" << value << "'\n";
   }
 
-  ~ListNode() {
+  ~ListNode()
+  {
     /* This line is just here for logging purposes so we can see when the
      * destructor runs!
      */
@@ -50,9 +54,22 @@ template <typename T> struct ListNode {
  * @param values The values to store in the list.
  * @return A `unique_ptr` to the head of the list.
  */
-template <typename T> unique_ptr<ListNode<T>> create_list(const std::vector<T>& values) {
+template <typename T>
+unique_ptr<ListNode<T>> create_list(const std::vector<T> &values)
+{
   /* STUDENT TODO: Implement this method */
-  throw std::runtime_error("Not implemented: createList");
+  //throw std::runtime_error("Not implemented: createList");
+  unique_ptr<ListNode<T>> head = nullptr; // 初始化空链表
+
+  // 按照逆序创建链表
+  for (auto it = values.rbegin(); it != values.rend(); ++it)
+  {
+    unique_ptr<ListNode<T>> new_node = make_unique<ListNode<T>>(*it); // 创建新节点
+    new_node->next = std::move(head);                                 // 将新节点的 next 指向当前链表头
+    head = std::move(new_node);                                       // 更新头节点为新节点
+  }
+
+  return head; 
 }
 
 /**
@@ -63,7 +80,8 @@ template <typename T> unique_ptr<ListNode<T>> create_list(const std::vector<T>& 
  * @paragraph func The function to apply to each element.
  */
 template <typename T, typename Func>
-void map_list(const unique_ptr<ListNode<T>>& head, const Func& func) {
+void map_list(const unique_ptr<ListNode<T>> &head, const Func &func)
+{
   if (!head)
     return;
   func(head->value);
@@ -73,10 +91,12 @@ void map_list(const unique_ptr<ListNode<T>>& head, const Func& func) {
 /**
  * @brief An example of using a singly-linked list with `unique_ptr`.
  */
-void linked_list_example() {
+void linked_list_example()
+{
   std::vector<std::string> names{"Jacob", "Fabio", "Keith", "Chris", "Sean"};
   auto head = create_list(names);
-  map_list(head, [](const std::string& name) { std::cout << name << "\n"; });
+  map_list(head, [](const std::string &name)
+           { std::cout << name << "\n"; });
 }
 
 #include "autograder/utils.hpp"
