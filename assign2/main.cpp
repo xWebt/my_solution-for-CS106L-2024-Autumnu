@@ -21,7 +21,7 @@
 #include <sstream>
 #include "utils.h"
 // 随便编造的名字
-std::string kYourName = "Elias Hart"; // Don't forget to change this!
+std::string kYourName = "A B"; // Don't forget to change this!
 /**
  * Takes in a file name and returns a set containing all of the applicant names as a set.
  *
@@ -85,7 +85,7 @@ std::queue<const std::string *> find_matches(std::string name, std::set<std::str
     split << now_name;
     std::string first_name, last_name;
     split >> first_name >> last_name;
-    if (first_name[0] == name[0] && last_name[0] == name[0])
+    if (first_name[0] == first[0] && last_name[0] == second[0])
       que.push(&now_name); // 从set当中取出的值是const string，需要取地址转换为const string*
   }
   return que;
